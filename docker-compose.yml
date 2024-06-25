@@ -1,22 +1,27 @@
 services:
-    top-courses-db:
+    top-courses-api:
         build:
             context: .
             dockerfile: Dockerfile
             args:
+                NODE_ENV: docker
+                MONGO_DOCKER_URI: ${MONGO_DOCKER_URI}
                 MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
                 MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-        image: top-courses-db:latest
-        container_name: top-courses-db
+                JWT_SECRET: ${JWT_SECRET}
+        image: top-courses-api:latest
+        container_name: top-courses-api
         restart: always
         ports:
-            - 27017:27017
+            - 3000:3000
         volumes:
-            - ./mongo-data:/data/db
+            - ./.env:/opt/app/.env
         environment:
+            NODE_ENV: docker
+            MONGO_DOCKER_URI: ${MONGO_DOCKER_URI}
             MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
             MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-        command: --wiredTigerCacheSizeGB 1.5
+            JWT_SECRET: ${JWT_SECRET}
         networks:
             - top-courses-network
 
