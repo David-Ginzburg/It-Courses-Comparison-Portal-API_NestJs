@@ -16,7 +16,7 @@ export class ProductModel {
 	@Prop()
 	image: string;
 
-	@Prop()
+	@Prop({ unique: true })
 	title: string;
 
 	@Prop()
