@@ -16,15 +16,17 @@ import { ProductModel } from './product.model';
 import { FindProductDto } from './dto/find-product.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductService } from './product.service';
-import { PRODUCT_NOT_FOUND_ERROR } from './product.constants';
+import { PRODUCT_NOT_FOUND_ERROR, PRODUCT_TITLE_ALREADY_EXIST } from './product.constants';
 import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { CustomErrorMessageInterceptor } from 'src/decorators/product-title.decorator';
 
 @Controller('product')
 export class ProductController {
 	constructor(private readonly productService: ProductService) {}
 
 	@UseGuards(JwtAuthGuard)
+	@CustomErrorMessageInterceptor(PRODUCT_TITLE_ALREADY_EXIST)
 	@UsePipes(new ValidationPipe())
 	@Post('create')
 	async create(@Body() dto: CreateProductDto) {

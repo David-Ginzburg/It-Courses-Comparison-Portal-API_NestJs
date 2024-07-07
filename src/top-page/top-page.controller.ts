@@ -22,21 +22,17 @@ import {
 	NOT_FOUND_ID_TOP_PAGE_ERROR,
 } from './top-page.constants';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { CustomErrorMessageInterceptor } from 'src/decorators/product-title.decorator';
 
 @Controller('top-page')
 export class TopPageController {
 	constructor(private readonly topPageService: TopPageService) {}
 
 	@UseGuards(JwtAuthGuard)
+	@CustomErrorMessageInterceptor(ALIAS_PAGE_ALREADY_EXIST)
 	@UsePipes(new ValidationPipe())
 	@Post('create')
 	async create(@Body() dto: CreateTopPdageDto) {
-		const page = await this.topPageService.findByAlias(dto.alias);
-
-		if (page) {
-			throw new NotFoundException(ALIAS_PAGE_ALREADY_EXIST);
-		}
-
 		return this.topPageService.create(dto);
 	}
 

@@ -1,29 +1,17 @@
-import {
-	BadRequestException,
-	Body,
-	Controller,
-	HttpCode,
-	Post,
-	UsePipes,
-	ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { ALREADY_REGISTERED_ERROR } from './auth.constants';
+import { CustomErrorMessageInterceptor } from 'src/decorators/product-title.decorator';
 
 @Controller('auth')
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
 
+	@CustomErrorMessageInterceptor(ALREADY_REGISTERED_ERROR)
 	@UsePipes(new ValidationPipe())
 	@Post('register')
 	async register(@Body() dto: AuthDto) {
-		const oldUser = await this.authService.findUser(dto.login);
-
-		if (oldUser) {
-			throw new BadRequestException(ALREADY_REGISTERED_ERROR);
-		}
-
 		return this.authService.createUser(dto);
 	}
 
