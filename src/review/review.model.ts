@@ -20,6 +20,12 @@ export class ReviewModel {
 
 	@Prop({ type: Types.ObjectId, ref: ProductModel.name })
 	productId: Types.ObjectId;
+
+	@Prop()
+	createdAt: Date;
+
+	@Prop()
+	updatedAt: Date;
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(ReviewModel);

@@ -6,6 +6,7 @@ import { ReviewModule } from './review/review.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FilesModule } from './files/files.module';
+import { SitemapModule } from './sitemap/sitemap.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -33,6 +34,7 @@ dotenv.config();
 		ProductModule,
 		ReviewModule,
 		FilesModule,
+		SitemapModule,
 	],
 })
 export class AppModule {}

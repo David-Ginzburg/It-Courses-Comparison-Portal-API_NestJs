@@ -9,6 +9,12 @@ export class UserModel {
 
 	@Prop()
 	passwordHash: string;
+
+	@Prop()
+	createdAt: Date;
+
+	@Prop()
+	updatedAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserModel);
