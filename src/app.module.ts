@@ -7,7 +7,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FilesModule } from './files/files.module';
 import { SitemapModule } from './sitemap/sitemap.module';
+import { TelegramModule } from './telegram/telegram.module';
 import * as dotenv from 'dotenv';
+import { getTelegramConfig } from './configs/telegram.config';
 dotenv.config();
 
 @Module({
@@ -35,6 +37,11 @@ dotenv.config();
 		ReviewModule,
 		FilesModule,
 		SitemapModule,
+		TelegramModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: getTelegramConfig,
+		}),
 	],
 })
 export class AppModule {}
