@@ -23,16 +23,24 @@ import {
 } from './top-page.constants';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CustomErrorMessageInterceptor } from 'src/decorators/product-title.decorator';
+import { HhService } from 'src/hh/hh.service';
 
 @Controller('top-page')
 export class TopPageController {
-	constructor(private readonly topPageService: TopPageService) {}
+	constructor(
+		private readonly topPageService: TopPageService,
+		private readonly hhService: HhService,
+	) {}
 
 	@UseGuards(JwtAuthGuard)
 	@CustomErrorMessageInterceptor(ALIAS_PAGE_ALREADY_EXIST)
 	@UsePipes(new ValidationPipe())
 	@Post('create')
 	async create(@Body() dto: CreateTopPdageDto) {
+		if (dto.hh && dto.hh.updatedAt) {
+			dto.hh.updatedAt = new Date(dto.hh.updatedAt);
+		}
+
 		return this.topPageService.create(dto);
 	}
 
@@ -100,5 +108,15 @@ export class TopPageController {
 	@Get('textSearch/:text')
 	async textSearch(@Param('text') text: string) {
 		return this.topPageService.findByText(text);
+	}
+
+	@Post('test')
+	async test() {
+		const data = await this.topPageService.findForHhUpdate(new Date());
+		for (const page of data) {
+			const hhData = await this.hhService.getData(page.category);
+			page.hh = hhData;
+			await this.topPageService.updateById(page._id, page);
+		}
 	}
 }
