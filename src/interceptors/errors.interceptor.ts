@@ -32,7 +32,11 @@ export class ErrorsInterceptor implements NestInterceptor {
 							),
 					);
 				}
-				console.log(error);
+
+				if (error.status !== 500) {
+					return throwError(() => error);
+				}
+
 				return throwError(() => new InternalServerErrorException('Internal server error'));
 			}),
 		);
