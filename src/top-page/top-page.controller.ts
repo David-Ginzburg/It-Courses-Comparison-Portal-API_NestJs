@@ -24,12 +24,14 @@ import {
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CustomErrorMessageInterceptor } from 'src/decorators/product-title.decorator';
 import { HhService } from 'src/hh/hh.service';
+import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 
 @Controller('top-page')
 export class TopPageController {
 	constructor(
 		private readonly topPageService: TopPageService,
 		private readonly hhService: HhService,
+		private readonly scheduleRegistry: SchedulerRegistry,
 	) {}
 
 	@UseGuards(JwtAuthGuard)
@@ -110,8 +112,8 @@ export class TopPageController {
 		return this.topPageService.findByText(text);
 	}
 
-	@Post('test')
-	async test() {
+	@Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+	async updateHhData() {
 		const data = await this.topPageService.findForHhUpdate(new Date());
 		for (const page of data) {
 			const hhData = await this.hhService.getData(page.category);
