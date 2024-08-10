@@ -9,6 +9,10 @@ services:
                 MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
                 MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
                 JWT_SECRET: ${JWT_SECRET}
+                DOMAIN: ${DOMAIN}
+                TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+                CHAT_ID: ${CHAT_ID}
+                HH_TOKEN: ${HH_TOKEN}
         image: top-courses-api:latest
         container_name: top-courses-api
         restart: always
@@ -22,6 +26,10 @@ services:
             MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
             MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
             JWT_SECRET: ${JWT_SECRET}
+            DOMAIN: ${DOMAIN}
+            TELEGRAM_TOKEN: ${TELEGRAM_TOKEN}
+            CHAT_ID: ${CHAT_ID}
+            HH_TOKEN: ${HH_TOKEN}
         networks:
             - top-courses-network
 
