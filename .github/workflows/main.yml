@@ -30,6 +30,10 @@ jobs:
                   echo MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }} >> $GITHUB_ENV
                   echo MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }} >> $GITHUB_ENV
                   echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> $GITHUB_ENV
+                  echo DOMAIN=${{ secrets.DOMAIN }} >> $GITHUB_ENV
+                  echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> $GITHUB_ENV
+                  echo CHAT_ID=${{ secrets.CHAT_ID }} >> $GITHUB_ENV
+                  echo HH_TOKEN=${{ secrets.HH_TOKEN }} >> $GITHUB_ENV
 
             - name: Build and push Docker images for MongoDB
               working-directory: ./mongo
