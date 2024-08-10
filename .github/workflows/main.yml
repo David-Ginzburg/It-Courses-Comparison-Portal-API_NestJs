@@ -34,13 +34,13 @@ jobs:
             - name: Build and push Docker images for MongoDB
               working-directory: ./mongo
               run: |
-                  docker-compose build
+                  docker compose build
                   docker tag top-courses-db:latest docker.pkg.github.com/david-ginzburg/top-courses_nestjs_api/top-courses_mongo-db:develop
                   docker push docker.pkg.github.com/david-ginzburg/top-courses_nestjs_api/top-courses_mongo-db:develop
 
             - name: Build and push Docker image for API
               run: |
-                  docker-compose build
+                  docker compose build
                   docker tag top-courses-api:latest docker.pkg.github.com/david-ginzburg/top-courses_nestjs_api/top-courses_nestjs_api:develop
                   docker push docker.pkg.github.com/david-ginzburg/top-courses_nestjs_api/top-courses_nestjs_api:develop
 
