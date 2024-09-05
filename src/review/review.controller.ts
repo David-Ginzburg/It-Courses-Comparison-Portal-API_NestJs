@@ -15,7 +15,6 @@ import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewService } from './review.service';
 import { REVIEW_NOT_FOUND } from './review.constants';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { Types } from 'mongoose';
 import { IdValidationPipe } from 'src/pipes/id-validation.pipe';
 import { TelegramService } from 'src/telegram/telegram.service';
 
@@ -30,7 +29,6 @@ export class ReviewController {
 	@UsePipes(new ValidationPipe())
 	@Post('create')
 	async create(@Body() dto: CreateReviewDto) {
-		dto.productId = new Types.ObjectId(dto.productId);
 		const review = await this.reviewService.create(dto);
 
 		const message =
@@ -57,8 +55,7 @@ export class ReviewController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get('byProduct/:productId')
-	async getByProduct(@Param('productId', IdValidationPipe) productId: Types.ObjectId) {
-		productId = new Types.ObjectId(productId);
+	async getByProduct(@Param('productId', IdValidationPipe) productId: string) {
 		return this.reviewService.findByProductId(productId);
 	}
 }

@@ -10,13 +10,13 @@ import { AuthDto } from 'src/auth/dto/auth.dto';
 import { CreateProductDto } from 'src/product/dto/create-product.dto';
 
 const loginDto: AuthDto = {
-	password: 'ewfwef',
-	login: 'ewrger@greger.com',
+	password: 'admin',
+	login: 'admin@admin.com',
 };
 
 const productDto: CreateProductDto = {
 	image: '1.png',
-	title: 'Мой продукт',
+	title: 'Мой продукт 12345',
 	price: 100,
 	oldPrice: 120,
 	credit: 10,
@@ -58,15 +58,18 @@ describe('AppController (e2e)', () => {
 
 		const { body: productBody } = await request(app.getHttpServer())
 			.post('/product/create')
+			.set('Authorization', 'Bearer ' + token)
 			.send(productDto);
-
+		console.log(productBody);
 		reviewTestDto = {
 			name: 'Тест',
 			title: 'Заголовок',
 			description: 'Описание тестовое',
 			rating: 5,
-			productId: new Types.ObjectId(productBody._id),
+			productId: new Types.ObjectId(productBody._id) as unknown as string,
 		};
+
+		console.log(reviewTestDto);
 	});
 
 	it('/review/create (POST) - success', async () => {
@@ -129,7 +132,9 @@ describe('AppController (e2e)', () => {
 	});
 
 	afterAll(async () => {
-		await request(app.getHttpServer()).delete('/product/' + reviewTestDto.productId);
+		await request(app.getHttpServer())
+			.delete('/product/' + reviewTestDto.productId)
+			.set('Authorization', 'Bearer ' + token);
 
 		disconnect();
 	});

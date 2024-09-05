@@ -26,7 +26,7 @@ describe('ReviewService', () => {
 	});
 
 	it('findByProductId - success', async () => {
-		const id = new Types.ObjectId();
+		const id = new Types.ObjectId().toHexString();
 
 		reviewRepositoryFactory()
 			.find()
